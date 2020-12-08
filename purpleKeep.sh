@@ -44,6 +44,7 @@ main() {
         printf "Installation has completed...\nPress any key to close this windows :)"
         read endOfScript
         source ~/.zshrc # Final step to add volatility and ghidra to path
+        source ~/.bashrc
         exit
 }
 
@@ -135,6 +136,7 @@ forensicTools() {
             rm volatility_2.6_lin64_standalone.zip*
 
         ## Add Volatility to PATH
+        echo $passwd | sudo -S echo "export PATH=$PATH:/home/$whoAreyou/Documents/githubTools/volatility3" >> ~/.bashrc
         echo $passwd | sudo -S echo "export PATH=$PATH:/home/$whoAreyou/Documents/githubTools/volatility3" >> ~/.zshrc
 
     # avml
@@ -194,6 +196,7 @@ rev(){
         mv ghidra_9.2_PUBLIC ghidra_9
         
         ## Add GHidra to PATH
+        echo $passwd | sudo -S echo "export PATH=$PATH:/home/$whoAreyou/Documents/Tools/ghidra_9" >> ~/.bashrc
         echo $passwd | sudo -S echo "export PATH=$PATH:/home/$whoAreyou/Documents/Tools/ghidra_9" >> ~/.zshrc
     
     theApts # Check if the new installed packages need upgrading 

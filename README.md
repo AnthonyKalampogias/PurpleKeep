@@ -4,7 +4,7 @@
 
 ​	Purple Keep is a work in progress open source bash script for setting up a Linux (Debian-Based) machine with some of the most known and valuable tools for red and blue teamers, hence the name purple :) 
 
-I tried to keep the code as user friendly as possible and ease for development
+I try to keep the code as user friendly as possible and ease for development
 
 ## Installation
 
@@ -70,7 +70,7 @@ This will install some of the most commonly used forensics tools that you will n
 
   - Volatility Standalone
 
-    On purpose something doesn't work in the main volatility you will have the standalone version to work with
+    In case something doesn't work in the main volatility you will have the standalone version to work with
 
 - AVML
 - Sleuthkit
@@ -114,7 +114,7 @@ Probably the most valuable function on this script, here we will install one of 
 - Impacket
 - PayloadsAllTheThings
 - Dirbuster
-  - wfuzz
+- wfuzz
 - nmap
 - metasploit-framework
 - netcat

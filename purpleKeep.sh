@@ -147,6 +147,10 @@ forensicTools() {
     # Autopsy
         # Official WebPage https://www.sleuthkit.org/autopsy/
         echo $passwd | sudo -S apt install -y autopsy sleuthkit
+    
+    # Wireshark
+        # Official WebPage https://www.wireshark.org
+        echo $passwd | sudo -S apt install -y wireshark tshark
 
     
     # Macro analysis

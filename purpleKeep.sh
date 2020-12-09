@@ -2,18 +2,18 @@
 
 
 theApts() {
-	printf "Beginning package updating with apt"
-	# Basic stuff to get our machine to the latest packages available
+    printf "Beginning package updating with apt"
+    # Basic stuff to get our machine to the latest packages available
     echo $passwd | sudo -S apt --fix-broken install -y # When installing new packages it is possible for something to go wrong 
                                                         #so we will keep a constant eye during this setup on apt just in case
     echo $passwd | sudo -S apt update
     echo $passwd | sudo -S apt-get upgrade -y
     echo $passwd | sudo -S apt-get dist-upgrade -y
-	echo $passwd | sudo -S apt-get full-upgrade -y
-	echo $passwd | sudo -S apt-get autoremove -y # Delete any unecessary packages to free up some space
+    echo $passwd | sudo -S apt-get full-upgrade -y
+    echo $passwd | sudo -S apt-get autoremove -y # Delete any unecessary packages to free up some space
     echo $passwd | sudo -S apt --fix-broken install -y
     echo $passwd | sudo -S dpkg --configure -a #In case dpkg encounters any errors
-	printf "\nFinished package updating.."
+    printf "\nFinished package updating.."
 }
 
 main() {
@@ -50,7 +50,7 @@ main() {
 
 general(){
     printf "Initiating installation of general applications.."
-	echo $passwd | sudo -S apt-get install -y aptitude exiftool snapd git curl ruby gem gnupg default-jre apt-transport-https npm htop
+    echo $passwd | sudo -S apt-get install -y aptitude exiftool snapd git curl ruby gem gnupg default-jre apt-transport-https npm htop
 
     # Setup zsh
     	clear
@@ -173,7 +173,7 @@ forensicTools() {
 
 stego(){
 
-	printf "Initiating Installation for Steganography Tools"
+    printf "Initiating Installation for Steganography Tools"
     echo $passwd | sudo -S apt install -y foremost steghide kali-tools-crypto-stego stegcracker elpa-ps-ccrypt
     theApts # Check if the new installed packages need upgrading 
 
@@ -181,11 +181,10 @@ stego(){
 
 
 rev(){
-    
     printf "Initiating Installation for Reverse Engineering Tools"
     
     #Install some common tools that you might need
-        echo $passwd | sudo -S apt install -y ghex radare2 radare2-cutter
+    echo $passwd | sudo -S apt install -y ghex radare2 radare2-cutter
     
     # Ghidra
         # Website https://ghidra-sre.org/

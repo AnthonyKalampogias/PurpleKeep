@@ -2,7 +2,7 @@
 
 ### by Antony Kalampogias
 
-​	Purple Keep is a work in progress open source bash script for setting up a Linux (Debian-Based) machine with some of the most known and valuable tools for red and blue teamers, hence the name purple :) 
+​Purple Keep is a work in progress open source bash script for setting up a Linux (Debian-Based) machine with some of the most known and valuable tools for red and blue teamers, hence the name purple :) 
 
 I try to keep the code as user friendly as possible and ease for development
 

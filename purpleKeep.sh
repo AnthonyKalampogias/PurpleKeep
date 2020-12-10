@@ -156,7 +156,7 @@ forensicTools() {
 
     
     # Macro analysis
-    	python3 ~/Documents/githubTools/volatility/get-pip.py #set up python3 pip
+    	python3 ~/Documents/githubTools/volatility3/get-pip.py #set up python3 pip
     	echo $passwd | sudo -S cp /home/$whoAreyou/.local/bin/pip3 /usr/bin # In case pip3 doesn't get in PATH
         ## OleTools
             # Official Repo https://github.com/decalage2/oletools

@@ -2,7 +2,7 @@
 
 ### by Antony Kalampogias
 
-​Purple Keep is a work in progress open source bash script for setting up a Linux (Debian-Based) machine with some of the most known and valuable tools for red and blue teamers, hence the name purple :) 
+Purple Keep is a work in progress open source bash script for setting up a Linux (Debian-Based) machine with some of the most known and valuable tools for red and blue teamers, hence the name purple :) 
 
 I try to keep the code as user friendly as possible and ease for development
 
@@ -24,9 +24,9 @@ But make sure the script has the permission to be executed `chmod +x purpleKeep.
 
 - It is suggested to **not** run the script as a sudoer `sudo ./purpleKeep.sh` due to the tools that are installed from the web either from GitHub or in general will only be available for root, the script on startup will ask for your password so it will provide it itself when it is needed for an installation.
   - You can check which commands use sudo privileges by running in your terminal `cat purpleKeep.sh | grep sudo `
-
 - The script will create a folder on your users Desktop to keep all the logs outputted in case you want to give them a look
 - It is also advised that if you are to run this script on a freshly installed OS to keep an eye on the screen for there may be some pop up messages from packages that might need user interaction
+- I also noticed that when some packages have their own "GUI" in the terminal, because the script prints out that GUI you can't respond to the prompted message so if you are aware of such application that does that please execute `sudo apt update && sudo apt upgrade -y` before the script just to be sure
 
 
 
@@ -66,11 +66,15 @@ Highly useful communication app for communities and teams
 
 This will install some of the most commonly used forensics tools that you will need in your forensics journey
 
-- Volatility 3
+## Volatility
 
-  - Volatility Standalone
+Once you reach volatility the user will be prompted with which version of volatility he wishes to install `vol2` or `vol3`
 
-    In case something doesn't work in the main volatility you will have the standalone version to work with
+You can also skip this installation by pressing any other key but in that case the user will be prompted once more for this decision 
+
+- Volatility Standalone
+
+  In case something doesn't work in the main volatility you will have the standalone version to work with
 
 - AVML
 - Sleuthkit
@@ -79,6 +83,7 @@ This will install some of the most commonly used forensics tools that you will n
 - WireShark
   
   - tshark
+- BinWalk
 - OleTools
   
   - ViperMonkey

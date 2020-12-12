@@ -35,6 +35,9 @@ main() {
 
         # Install from functions
             ## And save all the logs the functions make inside the Logs folder
+        #############################################################
+        # Function checker if runned with log append grep "Complet" #
+        #############################################################
         general | tee ~/Desktop/purpleKeepLogs/generalFunctions.log
         forensicTools | tee ~/Desktop/purpleKeepLogs/forensicsFunctions.log
         stego | tee ~/Desktop/purpleKeepLogs/stegoFunctions.log
@@ -70,6 +73,7 @@ general(){
     
     # Python3 Pip if not installed and python3 libs 
         echo $passwd | sudo -S apt install -y python3-pip libpython3-dev libpython3.8-dev python-pip-whl python3-dev python3-wheel python3.8-dev python3-venv
+        echo $passwd | sudo -S cp /home/$whoAreyou/.local/bin/pip3 /usr/bin # In case pip3 doesn't get in PATH
 
 
     ## Kali Repo
@@ -108,7 +112,8 @@ general(){
     	cd ~/Documents
     	mkdir githubTools && cd githubTools
 		
-    theApts # Check if the new installed packages need upgrading 
+    theApts # Check if the new installed packages need upgrading
+    printf "\ngeneral function has completed its installation\nStarting forensics installation..\n" 
 }
 
 forensicTools() {
@@ -117,23 +122,65 @@ forensicTools() {
     # Volatility
         # reference link https://covert.sh/2020/08/24/volatility-ubuntu-setup/
         # official repo https://github.com/volatilityfoundation/volatility
+    
+    cd ~/Documents/githubTools
 
-        ## Basic installation
+    echo "Which version of volatility would you like to install ?\n1. vol2\n2. vol3\nor just press enter to skip..\nInput: "
+    read whichVol # Read either vol2/vol3 for volatility with python2 or volatility with python3
+    if [ $whichVol = "vol2" ]; then
+        # if the user selects to install volatility2, 
+        
+        #Setup python2 libraries
+        echo $passwd | sudo -S apt install -y python2 python-dev dwarfdump build-essential yara zip
+        curl https://bootstrap.pypa.io/get-pip.py --output get-pip.py #Download pip2
+        python2 get-pip.py # Setup pip2
+        sudo cp /home/papakis/.local/bin/pip2 /usr/bin/ #Make sure pip2 is in PATH
+        pip2 install --upgrade setuptools #Make sure pip2 is ok to install packages
+        
+        # Install libraries for vol2
+        pip2 install pycrypto yara-python distorm3==3.4.4
+        
+        # Setup Volatility2
+        git clone https://github.com/volatilityfoundation/volatility.git
+        cd volatility/
+        mv ../get-pip.py .
+        echo $passwd | sudo -S python2 setup.py install
+        clear
+        echo "Volatility2 has succesfully been installed"
+
+    elif [ $whichVol = "vol3" ]; then
+        # if the user selects to install volatility2,
+
+        ### Basic installation
         pip3 install capstone yara-python pefile
-        cd ~/Documents/githubTools
         git clone https://github.com/volatilityfoundation/volatility3.git
 
-        ## Symbol Tables
+        ### Symbol Tables
             cd volatility3/volatility/symbols
             wget https://downloads.volatilityfoundation.org/volatility3/symbols/windows.zip
             wget https://downloads.volatilityfoundation.org/volatility3/symbols/mac.zip
             wget https://downloads.volatilityfoundation.org/volatility3/symbols/linux.zip
+        
+        clear
+        echo "Volatility3 has succesfully been installed"
+    
+    else 
+        echo "Are you sure you don't want to install volatility?\ny | skip volatility\nn | No I want it!\nInput:"
+        read whichVol 
+        if [ $whichVol = "n" ]; then
+            # Call the function Again but when it finishes we use break so it doesn't execute twice
+            forensicTools
+            break
+        else
+            echo "Skipping volatility...\n"
+        fi
+    fi 
 
-        ## Backup volatility standalone edition
-            cd ~/Documents/Tools/
-            wget http://downloads.volatilityfoundation.org/releases/2.6/volatility_2.6_lin64_standalone.zip
-            unzip volatility_2.6_lin64_standalone.zip
-            rm volatility_2.6_lin64_standalone.zip*
+    ## Backup volatility standalone edition
+        cd ~/Documents/Tools/
+        wget http://downloads.volatilityfoundation.org/releases/2.6/volatility_2.6_lin64_standalone.zip
+        unzip volatility_2.6_lin64_standalone.zip
+        rm volatility_2.6_lin64_standalone.zip*
 
         ## Add Volatility to PATH
         echo $passwd | sudo -S echo "export PATH=$PATH:/home/$whoAreyou/Documents/githubTools/volatility3" >> ~/.bashrc
@@ -154,10 +201,10 @@ forensicTools() {
         # Official WebPage https://www.wireshark.org
         echo $passwd | sudo -S apt install -y wireshark tshark
 
+    # BinWalk
+        echo $passwd | sudo -S apt install -y binwalk
     
     # Macro analysis
-    	python3 ~/Documents/githubTools/volatility3/get-pip.py #set up python3 pip
-    	echo $passwd | sudo -S cp /home/$whoAreyou/.local/bin/pip3 /usr/bin # In case pip3 doesn't get in PATH
         ## OleTools
             # Official Repo https://github.com/decalage2/oletools
             echo $passwd | sudo -S pip3 install -U oletools
@@ -167,7 +214,8 @@ forensicTools() {
             pip3 install -U https://github.com/decalage2/ViperMonkey/archive/master.zip
 	
     
-    theApts # Check if the new installed packages need upgrading 
+    theApts # Check if the new installed packages need upgrading
+    printf "\nForensics function has completed its installation\nStarting steganography installation..\n" 
 }
 
 
@@ -175,7 +223,8 @@ stego(){
 
     printf "Initiating Installation for Steganography Tools"
     echo $passwd | sudo -S apt install -y foremost steghide kali-tools-crypto-stego stegcracker elpa-ps-ccrypt
-    theApts # Check if the new installed packages need upgrading 
+    theApts # Check if the new installed packages need upgrading
+    printf "\nSteganography function has completed its installation\nStarting Reverse engineering installation..\n" 
 
 }
 
@@ -199,6 +248,7 @@ rev(){
         echo $passwd | sudo -S echo "export PATH=$PATH:/home/$whoAreyou/Documents/Tools/ghidra_9" >> ~/.zshrc
     
     theApts # Check if the new installed packages need upgrading 
+    printf "\nReverse Engineering function has completed its installation\nStarting Pen Test installation..\n"
 }
 
 
@@ -232,9 +282,9 @@ pentest(){
         echo $passwd | sudo -S apt install -y dirbuster wfuzz
     
     # Must have 
-        echo $passwd | sudo -S apt install -y nmap metasploit-framework netcat
+        echo $passwd | sudo -S apt install -y nmap metasploit-framework netcat openjdk-11-jdk
             ## Suggested libs from nmap installation
-            echo $passwd | sudo -S apt install -y liblinear-tools liblinear-dev clamav clamav-daemon ncat ndiff zenmap ndiff postgresql-doc openjdk-11-jdk libjson-perl isag
+            echo $passwd | sudo -S apt install -y liblinear-tools liblinear-dev clamav clamav-daemon ndiff libjson-perl isag
     
     # BloodHound
         ## Neo4j
@@ -243,7 +293,7 @@ pentest(){
             echo $passwd | sudo -S apt update
             echo $passwd | sudo -S apt install -y neo4j
             wget -O - https://debian.neo4j.com/neotechnology.gpg.key | sudo apt-key add -
-            echo 'deb https://debian.neo4j.com stable 4.0' > /etc/apt/sources.list.d/neo4j.list
+            echo $passwd | sudo -S echo 'deb https://debian.neo4j.com stable 4.0' > /etc/apt/sources.list.d/neo4j.list
             echo $passwd | sudo -S apt-get update
         
         ## Bloodhound
@@ -264,6 +314,7 @@ pentest(){
             mkdir winPEAS && cd winPEAS
             wget https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/blob/master/winPEAS/winPEASexe/winPEAS/bin/x86/Release/winPEAS.exe
 
+    printf "\nPen Test function has completed its installation\n"
 }
 
 

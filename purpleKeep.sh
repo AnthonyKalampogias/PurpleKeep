@@ -35,9 +35,6 @@ main() {
 
         # Install from functions
             ## And save all the logs the functions make inside the Logs folder
-        #############################################################
-        # Function checker if runned with log append grep "Complet" #
-        #############################################################
         general | tee ~/Desktop/purpleKeepLogs/generalFunctions.log
         forensicTools | tee ~/Desktop/purpleKeepLogs/forensicsFunctions.log
         stego | tee ~/Desktop/purpleKeepLogs/stegoFunctions.log
@@ -279,10 +276,10 @@ pentest(){
         git clone https://github.com/swisskyrepo/PayloadsAllTheThings.git
     
     # Web Brute Forcers
-        echo $passwd | sudo -S apt install -y dirbuster wfuzz
+        echo $passwd | sudo -S apt install -y dirbuster wfuzz gobuster masscan
     
     # Must have 
-        echo $passwd | sudo -S apt install -y nmap metasploit-framework netcat openjdk-11-jdk
+        echo $passwd | sudo -S apt install -y nmap metasploit-framework netcat openjdk-11-jdk burpsuite
             ## Suggested libs from nmap installation
             echo $passwd | sudo -S apt install -y liblinear-tools liblinear-dev clamav clamav-daemon ndiff libjson-perl isag
     
@@ -309,10 +306,11 @@ pentest(){
             echo $passwd | sudo -S apt install -y hashcat john
     
     # Priv Escallation
-        # winPEAS
+        # winPEAS/linPEAS
             cd ~/Documents/githubTools
-            mkdir winPEAS && cd winPEAS
+            mkdir thePEAS && cd thePEAS
             wget https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/blob/master/winPEAS/winPEASexe/winPEAS/bin/x86/Release/winPEAS.exe
+            wget https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/blob/master/linPEAS/linpeas.sh
 
     printf "\nPen Test function has completed its installation\n"
 }

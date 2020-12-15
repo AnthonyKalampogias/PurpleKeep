@@ -123,9 +123,10 @@ Probably the most valuable function on this script, here we will install one of 
 - nmap
 - metasploit-framework
 - netcat
+- Burp Suite
 - Neo4j
 - Bloodhound
   - Sharphound
 - HashCat
 - John
-- winPEAS
+- PEAS

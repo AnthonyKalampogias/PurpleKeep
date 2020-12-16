@@ -131,7 +131,7 @@ forensicTools() {
         echo $passwd | sudo -S apt install -y python2 python-dev dwarfdump build-essential yara zip
         curl https://bootstrap.pypa.io/get-pip.py --output get-pip.py #Download pip2
         python2 get-pip.py # Setup pip2
-        sudo cp /home/papakis/.local/bin/pip2 /usr/bin/ #Make sure pip2 is in PATH
+        sudo cp /home/$whoAreyou/.local/bin/pip2 /usr/bin/ #Make sure pip2 is in PATH
         pip2 install --upgrade setuptools #Make sure pip2 is ok to install packages
         
         # Install libraries for vol2

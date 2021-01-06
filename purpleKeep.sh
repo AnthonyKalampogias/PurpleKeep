@@ -50,7 +50,7 @@ main() {
 
 general(){
     printf "Initiating installation of general applications.."
-    echo $passwd | sudo -S apt-get install -y aptitude exiftool snapd git curl ruby gem gnupg default-jre apt-transport-https npm htop
+    echo $passwd | sudo -S apt-get install -y aptitude exiftool snapd git curl ruby gem gnupg default-jre apt-transport-https npm gzip htop
 
     # Setup zsh
     	clear
@@ -61,7 +61,7 @@ general(){
 
         if [ "$wantZSH" = "y" ]; then
             sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-            printf "If you wish to change the zsh theme please visit "
+            printf "If you wish to change the zsh theme please visit..\nhttps://github.com/ohmyzsh/ohmyzsh/wiki/Themes"
             echo "y" # ZSH prompt to install it
             echo "exit" # Exit ZSH shell and continue with the script
         else
@@ -103,11 +103,40 @@ general(){
             wget https://dl.discordapp.net/apps/linux/0.0.12/discord-0.0.12.deb
             echo $passwd | sudo -S dpkg -i discord-0.0.12.deb
             rm discord-0.0.12.deb*
-    
+        
+        ### Sage
+        printf "Would you like to install Sage Math ?\nhttps://www.sagemath.org/\nInput: "
+            read wantSage
+            if [ "$wantSage" = "y" ]; then
+                printf "OK!\nThis might take a while :')\nPlease wait..."
+                # Installed under ~/Documents/Tools/
+                wget http://mirrors.mit.edu/sage/linux/64bit/sage-9.2-Ubuntu_20.04-x86_64.tar.bz2
+                tar -xjf *.tar.bz2
+                cd Sage*
+                chmod +x sage
+                ./sage
+                clear
+                printf "Sage has been installed !!\n"
+            fi
+
+
     ## Github Tools
 		#Create a folder in the users Documents to be later used to store the tools we install from github
     	cd ~/Documents
     	mkdir githubTools && cd githubTools
+        
+        ### Cheat
+            # Cheat is an amazing tool that a friend of mine found and I am completely addicted to it
+            # You basically call it when you can't recall a command you want to execute and it will prompt you with some suggestions
+            # For more information about Cheat and how to configure please visit its github page https://github.com/cheat/cheat
+            wget https://github.com/cheat/cheat/releases/download/4.2.0/cheat-linux-amd64.gz
+            gzip -d cheat-linux-amd64.gz
+            mv cheat-linux-amd64 ~/Documents/githubTools/
+            chmod +x cheat-linux-amd64
+            ./cheat-linux-amd64
+            mv cheat-linux-amd64 cheat
+            echo $passwd | sudo -S cp cheat /usr/bin/
+
 		
     theApts # Check if the new installed packages need upgrading
     printf "\ngeneral function has completed its installation\nStarting forensics installation..\n" 
@@ -149,7 +178,7 @@ forensicTools() {
         # if the user selects to install volatility2,
 
         ### Basic installation
-        pip3 install capstone yara-python pefile
+        pip3 install capstone yara-python pefile 
         git clone https://github.com/volatilityfoundation/volatility3.git
 
         ### Symbol Tables
@@ -231,7 +260,8 @@ rev(){
     
     #Install some common tools that you might need
     echo $passwd | sudo -S apt install -y ghex radare2 radare2-cutter
-    
+    pip3 install pwntools
+
     # Ghidra
         # Website https://ghidra-sre.org/
         cd ~/Documents/Tools
@@ -324,7 +354,7 @@ printf "No need to run the script as a sudoer because the tools will only be ava
 
 printf "\nPlease note that the script dispite displaying what is happening will also save all the logs in a new directory on your Desktop..\n"
 printf "Press any key to begin the installation\n"
-read waitForLaunch
+read waitForLaunch # Allow the user some time to read the prompt messages until he presses any button to proceed
 
 clear
 echo "                                               "

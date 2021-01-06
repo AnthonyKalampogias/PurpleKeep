@@ -1,8 +1,8 @@
 # Purple Keep
 
-### by Antony Kalampogias
+### by Anthony Kalampogias
 
-Purple Keep is a work in progress open source bash script for setting up a Linux (Debian-Based) machine with some of the most known and valuable tools for red and blue teamers, hence the name purple :) 
+Purple Keep is a work in progress open source bash script for setting up a Linux (Debian-Based) machine with some of the most known and valuable tools for red and blue teamers, hence the name purple :)
 
 I try to keep the code as user friendly as possible and ease for development
 
@@ -12,23 +12,19 @@ All you have to do is download the script
 
 `git clone https://github.com/AnthonyKalampogias/PurpleKeep.git`
 
-and run it on any folder you want 
+and run it on any folder you want
 
 `./purpleKeep.sh`
 
 But make sure the script has the permission to be executed `chmod +x purpleKeep.sh`
 
-
-
 ## Notes
 
 - It is suggested to **not** run the script as a sudoer `sudo ./purpleKeep.sh` due to the tools that are installed from the web either from GitHub or in general will only be available for root, the script on startup will ask for your password so it will provide it itself when it is needed for an installation.
-  - You can check which commands use sudo privileges by running in your terminal `cat purpleKeep.sh | grep sudo `
+- You can check which commands use sudo privileges by running in your terminal `cat purpleKeep.sh | grep sudo`
 - The script will create a folder on your users Desktop to keep all the logs outputted in case you want to give them a look
 - It is also advised that if you are to run this script on a freshly installed OS to keep an eye on the screen for there may be some pop up messages from packages that might need user interaction
 - I also noticed that when some packages have their own "GUI" in the terminal, because the script prints out that GUI you can't respond to the prompted message so if you are aware of such application that does that please execute `sudo apt update && sudo apt upgrade -y` before the script just to be sure
-
-
 
 ## Functions
 
@@ -38,39 +34,49 @@ But make sure the script has the permission to be executed `chmod +x purpleKeep.
 
 I encountered some technical issues during the testing of the script so I added `apt --fix-broken install` and `dpkg --configure -a` to make sure your installation won't experience any errors
 
-### General
+## General
 
-#### ZSH
+### ZSH
 
 I have found ZSH to be quite more easy and helpful than bash, not that I don't love the bash.. but I have found myself using ZSH on a daily bases and I encourage people to give it a try
 
 First you will be prompted if you wish to install ZSH with a provided link to check for information about it, available inputs are pretty simple `y/n`
 
-#### Kali Repo
+### Kali Repo
 
 Set up the official repository of kali Linux if you are **not** on a Kali distro set its priority lower than your other repositories so it will only be used if your other main repositories have nothing to respond to you
 
-#### Visual Studio Code
+### Visual Studio Code
 
-One of the best editors available right now and one of my personal favorite 
+One of the best editors available right now and one of my personal favorite
 
-#### Discord
+### Discord
 
 Be social :)
 
 Highly useful communication app for communities and teams
 
+### Sage Math
 
+SageMath is a free open-source mathematics software, It builds on top of many existing open-source packages: NumPy, SciPy, matplotlib, Sympy, Maxima, GAP, FLINT, R and many more. Access their combined power through a common, Python-based language or directly via interfaces or wrappers.
+You will be prompted if you would like to install sage.
 
-### forensicTools
+### Cheat
+
+  Cheat is an amazing tool that a friend of mine found and I am completely addicted to it.
+  You basically call it when you can't recall a command you want to execute and it will prompt you with some suggestions
+  For more information about Cheat and how to configure it further please visit its [github page](https://github.com/cheat/cheat)
+  You can also make your own cheat sheets :)
+
+## forensicTools
 
 This will install some of the most commonly used forensics tools that you will need in your forensics journey
 
-## Volatility
+### Volatility
 
 Once you reach volatility the user will be prompted with which version of volatility he wishes to install `vol2` or `vol3`
 
-You can also skip this installation by pressing any other key but in that case the user will be prompted once more for this decision 
+You can also skip this installation by pressing any other key but in that case the user will be prompted once more for this decision
 
 - Volatility Standalone
 
@@ -88,29 +94,25 @@ You can also skip this installation by pressing any other key but in that case t
   
   - ViperMonkey
 
-
-
-### stego
+## stego
 
 This function will install the most known steganography tools
 
-- foremost 
+- foremost
 - steghide
 - stegcracker
 
-
-
-### rev
+## rev
 
 This is the Reverse engineering function where we will install the most valuable reverse engineering tools out there
 
+- GHex
+- pwntools
 - GHidra
 - radare2
   - cutter
 
-
-
-### pentest
+## pentest
 
 Probably the most valuable function on this script, here we will install one of the most known tools and scripts for all your Pen Testing needs
 

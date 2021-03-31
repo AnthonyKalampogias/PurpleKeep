@@ -41,7 +41,7 @@ main() {
         rev | tee ~/Desktop/purpleKeepLogs/revFunctions.log
         pentest | tee ~/Desktop/purpleKeepLogs/penTestFunctions.log
 
-        printf "Installation has completed...\nPress any key to close this windows :)"
+        printf "[+] Installation has completed...\nPress any key to close this windows :)"
         read endOfScript
         source ~/.zshrc # Final step to add volatility and ghidra to path
         source ~/.bashrc
@@ -49,23 +49,23 @@ main() {
 }
 
 general(){
-    printf "Initiating installation of general applications.."
+    printf "[!] Initiating installation of general applications.."
     echo $passwd | sudo -S apt-get install -y aptitude exiftool snapd git curl ruby gem gnupg default-jre apt-transport-https npm gzip htop
 
     # Setup zsh
     	clear
-    	printf "Apt updates complete!\n"
+    	printf "[!] Apt updates complete!\n"
         printf "Do you wish to install ZSH as your new and fresh Terminal?[y/n]\n"
         printf "Visit https://ohmyz.sh/ for more information :)"
         read wantZSH
 
         if [ "$wantZSH" = "y" ]; then
             sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-            printf "If you wish to change the zsh theme please visit..\nhttps://github.com/ohmyzsh/ohmyzsh/wiki/Themes"
+            printf "[!] If you wish to change the zsh theme please visit..\nhttps://github.com/ohmyzsh/ohmyzsh/wiki/Themes"
             echo "y" # ZSH prompt to install it
             echo "exit" # Exit ZSH shell and continue with the script
         else
-            printf "You have selected not to install ZSH\nMoving on with the installation.."
+            printf "[!] You have selected not to install ZSH\n[+] Moving on with the installation.."
         fi
     
     # Python3 Pip if not installed and python3 libs 
@@ -80,18 +80,18 @@ general(){
         # If the user executed the script in any other Linux OS apart from Kali 
         if ! grep -q Kali "/etc/os-release" ;then
             clear
-            printf "You are not on a Kali Linux Distro\nSetting up the official Kali Linux Repository..\n"
+            printf "[!] You are not on a Kali Linux Distro\nSetting up the official Kali Linux Repository..\n"
             echo $passwd | sudo -S sh -c "echo 'deb https://http.kali.org/kali kali-rolling main non-free contrib' > /etc/apt/sources.list.d/kali.list"
             wget 'https://archive.kali.org/archive-key.asc'
             echo $passwd | sudo -S apt-key add archive-key.asc
             echo $passwd | sudo -S sh -c "echo 'Package: *'>/etc/apt/preferences.d/kali.pref; echo 'Pin: release a=kali-rolling'>>/etc/apt/preferences.d/kali.pref; echo 'Pin-Priority: 50'>>/etc/apt/preferences.d/kali.pref"
             theApts
             rm archive-key.asc
-            printf "\nKali Linux Repository has been installed on your system!\n"
+            printf "\n[+] Kali Linux Repository has been installed on your system!\n"
         fi
 
     ## Tools
-    	cd ~/Documents
+    	cd ~/Documents/
     	mkdir Tools && cd Tools/
 
         ### Visual Studio Code
@@ -105,10 +105,10 @@ general(){
             rm discord-0.0.12.deb*
         
         ### Sage
-        printf "Would you like to install Sage Math ?\nhttps://www.sagemath.org/\nInput: "
+        printf "[!] Would you like to install Sage Math ?\nhttps://www.sagemath.org/\nInput: "
             read wantSage
             if [ "$wantSage" = "y" ]; then
-                printf "OK!\nThis might take a while :')\nPlease wait..."
+                printf "[+] OK!\n[!] This might take a while :')\nPlease wait..."
                 # Installed under ~/Documents/Tools/
                 wget http://mirrors.mit.edu/sage/linux/64bit/sage-9.2-Ubuntu_20.04-x86_64.tar.bz2
                 tar -xjf *.tar.bz2
@@ -116,14 +116,14 @@ general(){
                 chmod +x sage
                 ./sage
                 clear
-                printf "Sage has been installed !!\n"
+                printf "[+] Sage has been installed !!\n"
             fi
 
 
     ## Github Tools
 		#Create a folder in the users Documents to be later used to store the tools we install from github
-    	cd ~/Documents
-    	mkdir githubTools && cd githubTools
+    	cd ~/Documents/
+    	mkdir githubTools && cd githubTools/
         
         ### Cheat
             # Cheat is an amazing tool that a friend of mine found and I am completely addicted to it
@@ -136,43 +136,45 @@ general(){
             ./cheat-linux-amd64
             mv cheat-linux-amd64 cheat
             echo $passwd | sudo -S cp cheat /usr/bin/
+            echo $passwd | sudo -S rm ~/Documents/githubTools/cheat
 
 		
     theApts # Check if the new installed packages need upgrading
-    printf "\ngeneral function has completed its installation\nStarting forensics installation..\n" 
+    printf "\n[+] general function has completed its installation\n[!] Starting forensics installation..\n" 
 }
 
 forensicTools() {
-	printf "\nInitiating Installation process for Forensics Tools\n"
+	printf "\n[+] Initiating Installation process for Forensics Tools\n"
     
     # Volatility
         # reference link https://covert.sh/2020/08/24/volatility-ubuntu-setup/
         # official repo https://github.com/volatilityfoundation/volatility
     
-    cd ~/Documents/githubTools
+    cd ~/Documents/githubTools/
 
-    echo "Which version of volatility would you like to install ?\n1. vol2\n2. vol3\nor just press enter to skip..\nInput: "
+    printf "[!] Which version of volatility would you like to install ?\n1. vol2\n2. vol3\nor just press enter to skip..\nInput: "
     read whichVol # Read either vol2/vol3 for volatility with python2 or volatility with python3
     if [ $whichVol = "vol2" ]; then
         # if the user selects to install volatility2, 
         
         #Setup python2 libraries
-        echo $passwd | sudo -S apt install -y python2 python-dev dwarfdump build-essential yara zip
-        curl https://bootstrap.pypa.io/get-pip.py --output get-pip.py #Download pip2
-        python2 get-pip.py # Setup pip2
-        sudo cp /home/$whoAreyou/.local/bin/pip2 /usr/bin/ #Make sure pip2 is in PATH
-        pip2 install --upgrade setuptools #Make sure pip2 is ok to install packages
+        # echo $passwd | sudo -S apt install -y python2 python-dev dwarfdump build-essential yara zip
+        # curl https://bootstrap.pypa.io/get-pip.py --output get-pip.py #Download pip2
+        # python2 get-pip.py # Setup pip2
+        # sudo cp /home/$whoAreyou/.local/bin/pip2 /usr/bin/ #Make sure pip2 is in PATH
+        # pip2 install --upgrade setuptools #Make sure pip2 is ok to install packages
         
-        # Install libraries for vol2
-        pip2 install pycrypto yara-python distorm3==3.4.4
+        # # Install libraries for vol2
+        # pip2 install pycrypto yara-python distorm3==3.4.4
         
-        # Setup Volatility2
-        git clone https://github.com/volatilityfoundation/volatility.git
-        cd volatility/
-        mv ../get-pip.py .
-        echo $passwd | sudo -S python2 setup.py install
-        clear
-        echo "Volatility2 has succesfully been installed"
+        # # Setup Volatility2
+        # git clone https://github.com/volatilityfoundation/volatility.git
+        # cd volatility/
+        # mv ../get-pip.py .
+        # echo $passwd | sudo -S python2 setup.py install
+        # clear
+        # echo "Volatility2 has succesfully been installed"
+        printf "[-] python 2 is no longer supported and I haven't yet found a way to make an installation for Volatility 2, will try to get back to it soon. <3"
 
     elif [ $whichVol = "vol3" ]; then
         # if the user selects to install volatility2,
@@ -182,23 +184,23 @@ forensicTools() {
         git clone https://github.com/volatilityfoundation/volatility3.git
 
         ### Symbol Tables
-            cd volatility3/volatility/symbols
+            cd volatility3/volatility3/symbols/
             wget https://downloads.volatilityfoundation.org/volatility3/symbols/windows.zip
             wget https://downloads.volatilityfoundation.org/volatility3/symbols/mac.zip
             wget https://downloads.volatilityfoundation.org/volatility3/symbols/linux.zip
         
         clear
-        echo "Volatility3 has succesfully been installed"
+        echo "[+] Volatility3 has succesfully been installed"
     
     else 
-        echo "Are you sure you don't want to install volatility?\ny | skip volatility\nn | No I want it!\nInput:"
+        printf "[!] Are you sure you don't want to install volatility?\ny | skip volatility\nn | No I want it!\nInput:"
         read whichVol 
         if [ $whichVol = "n" ]; then
             # Call the function Again but when it finishes we use break so it doesn't execute twice
             forensicTools
             break
         else
-            echo "Skipping volatility...\n"
+            printf "[!] Skipping volatility...\n"
         fi
     fi 
 
@@ -214,7 +216,7 @@ forensicTools() {
 
     # avml
         # Official Repo https://github.com/microsoft/avml
-        cd ~/Documents/githubTools
+        cd ~/Documents/githubTools/
         mkdir avml && cd avml/
         wget https://github.com/microsoft/avml/releases/download/v0.2.0/avml-minimal
         chmod +x avml-minimal
@@ -237,26 +239,29 @@ forensicTools() {
     
         ## ViperMonkey
             # Official Repo https://github.com/decalage2/ViperMonkey
-            pip3 install -U https://github.com/decalage2/ViperMonkey/archive/master.zip
+            # pip3 install --requirement https://raw.githubusercontent.com/decalage2/ViperMonkey/master/requirements.txt # install vmonkey requirments
+            # pip3 install -U https://github.com/decalage2/ViperMonkey/archive/master.zip
+            # echo $passwd | sudo -S cp ~/.local/bin/vmonkey /usr/bin
+            printf "[-] ViperMonkey uses pip2 which I haven't found a way to install yet, will try to get back to it soon. <3"
 	
     
     theApts # Check if the new installed packages need upgrading
-    printf "\nForensics function has completed its installation\nStarting steganography installation..\n" 
+    printf "\n[+] Forensics function has completed its installation\nStarting steganography installation..\n" 
 }
 
 
 stego(){
 
-    printf "Initiating Installation for Steganography Tools"
+    printf "[!] Initiating Installation for Steganography Tools"
     echo $passwd | sudo -S apt install -y foremost steghide kali-tools-crypto-stego stegcracker elpa-ps-ccrypt
     theApts # Check if the new installed packages need upgrading
-    printf "\nSteganography function has completed its installation\nStarting Reverse engineering installation..\n" 
+    printf "\n[+] Steganography function has completed its installation\n[!] Starting Reverse engineering installation..\n" 
 
 }
 
 
 rev(){
-    printf "Initiating Installation for Reverse Engineering Tools"
+    printf "[!] Initiating Installation for Reverse Engineering Tools"
     
     #Install some common tools that you might need
     echo $passwd | sudo -S apt install -y ghex radare2 radare2-cutter
@@ -264,7 +269,7 @@ rev(){
 
     # Ghidra
         # Website https://ghidra-sre.org/
-        cd ~/Documents/Tools
+        cd ~/Documents/Tools/
         wget https://ghidra-sre.org/ghidra_9.2_PUBLIC_20201113.zip
         unzip ghidra_9.2_PUBLIC_20201113.zip
         rm ghidra_9.2_PUBLIC_20201113.zip
@@ -275,7 +280,7 @@ rev(){
         echo $passwd | sudo -S echo "export PATH=$PATH:/home/$whoAreyou/Documents/Tools/ghidra_9" >> ~/.zshrc
     
     theApts # Check if the new installed packages need upgrading 
-    printf "\nReverse Engineering function has completed its installation\nStarting Pen Test installation..\n"
+    printf "\n[+] Reverse Engineering function has completed its installation\n[!] Starting Pen Test installation..\n"
 }
 
 
@@ -292,17 +297,18 @@ pentest(){
         pip3 install pipx
         pipx ensurepath
         pipx install crackmapexec
+        echo $passwd | sudo -S cp ~/.local/bin/pipx /usr/bin
 
     # Impacket
         # Official Repo https://github.com/SecureAuthCorp/impacket
-        cd ~/Documents/githubTools
+        cd ~/Documents/githubTools/
         git clone https://github.com/SecureAuthCorp/impacket.git
-        cd impacket 
+        cd impacket/
         pip3 install .
     
     # PayloadsAllTheThings
         # Official repo https://github.com/swisskyrepo/PayloadsAllTheThings
-        cd ~/Documents/githubTools
+        cd ~/Documents/githubTools/
         git clone https://github.com/swisskyrepo/PayloadsAllTheThings.git
     
     # Web Brute Forcers
@@ -325,7 +331,7 @@ pentest(){
         
         ## Bloodhound
             ### Also includes sharphound
-            cd ~/Documents/Tools
+            cd ~/Documents/Tools/
             wget https://github.com/BloodHoundAD/BloodHound/releases/download/4.0.1/BloodHound-linux-arm64.zip
             unzip BloodHound-linux-arm64.zip
             rm BloodHound-linux-arm64.zip
@@ -337,12 +343,12 @@ pentest(){
     
     # Priv Escallation
         # winPEAS/linPEAS
-            cd ~/Documents/githubTools
-            mkdir thePEAS && cd thePEAS
-            wget https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/blob/master/winPEAS/winPEASexe/winPEAS/bin/x86/Release/winPEAS.exe
+            cd ~/Documents/githubTools/
+            mkdir thePEAS && cd thePEAS/
+            wget https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/raw/master/winPEAS/winPEASexe/binaries/Obfuscated%20Releases/winPEASx64.exe
             wget https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/blob/master/linPEAS/linpeas.sh
 
-    printf "\nPen Test function has completed its installation\n"
+    printf "\n[+] Pen Test function has completed its installation\n"
 }
 
 

@@ -1,6 +1,5 @@
 #/!bin/sh
 
-
 theApts() {
     printf "Beginning package updating with apt"
     # Basic stuff to get our machine to the latest packages available
@@ -100,7 +99,7 @@ general(){
             rm code_1.51.1-1605051630_amd64.deb*
 
         ### Discord
-            wget https://dl.discordapp.net/apps/linux/0.0.12/discord-0.0.12.deb
+            wget https://discord.com/api/download?platform=linux&format=deb
             echo $passwd | sudo -S dpkg -i discord-0.0.12.deb
             rm discord-0.0.12.deb*
         
@@ -156,25 +155,24 @@ forensicTools() {
     read whichVol # Read either vol2/vol3 for volatility with python2 or volatility with python3
     if [ $whichVol = "vol2" ]; then
         # if the user selects to install volatility2, 
-        
+
         #Setup python2 libraries
-        # echo $passwd | sudo -S apt install -y python2 python-dev dwarfdump build-essential yara zip
-        # curl https://bootstrap.pypa.io/get-pip.py --output get-pip.py #Download pip2
-        # python2 get-pip.py # Setup pip2
-        # sudo cp /home/$whoAreyou/.local/bin/pip2 /usr/bin/ #Make sure pip2 is in PATH
-        # pip2 install --upgrade setuptools #Make sure pip2 is ok to install packages
+        echo $passwd | sudo -S apt install -y python2 python-dev dwarfdump build-essential yara zip
+        wget https://bootstrap.pypa.io/pip/2.7/get-pip.py #Download pip2
+        echo $passwd | sudo -S python2 get-pip.py # Setup pip2
+        sudo cp /home/$whoAreyou/.local/bin/pip2 /usr/bin/ #Make sure pip2 is in PATH
+        pip2 install --upgrade setuptools #Make sure pip2 is ok to install packages
         
-        # # Install libraries for vol2
-        # pip2 install pycrypto yara-python distorm3==3.4.4
+        # Install libraries for vol2
+        pip2 install pycrypto yara-python distorm3==3.4.4
         
-        # # Setup Volatility2
-        # git clone https://github.com/volatilityfoundation/volatility.git
-        # cd volatility/
-        # mv ../get-pip.py .
-        # echo $passwd | sudo -S python2 setup.py install
-        # clear
-        # echo "Volatility2 has succesfully been installed"
-        printf "[-] python 2 is no longer supported and I haven't yet found a way to make an installation for Volatility 2, will try to get back to it soon. <3"
+        # Setup Volatility2
+        git clone https://github.com/volatilityfoundation/volatility.git
+        cd volatility/
+        mv ../get-pip.py .
+        echo $passwd | sudo -S python2 setup.py install
+        clear
+        echo "[+] Volatility2 has succesfully been installed"
 
     elif [ $whichVol = "vol3" ]; then
         # if the user selects to install volatility2,
@@ -239,10 +237,10 @@ forensicTools() {
     
         ## ViperMonkey
             # Official Repo https://github.com/decalage2/ViperMonkey
-            # pip3 install --requirement https://raw.githubusercontent.com/decalage2/ViperMonkey/master/requirements.txt # install vmonkey requirments
-            # pip3 install -U https://github.com/decalage2/ViperMonkey/archive/master.zip
-            # echo $passwd | sudo -S cp ~/.local/bin/vmonkey /usr/bin
-            printf "[-] ViperMonkey uses pip2 which I haven't found a way to install yet, will try to get back to it soon. <3"
+            pip2 install --requirement https://raw.githubusercontent.com/decalage2/ViperMonkey/master/requirements.txt # install vmonkey requirments 
+            pip2 install -U https://github.com/decalage2/ViperMonkey/archive/master.zip
+            echo $passwd | sudo -S cp ~/.local/bin/vmonkey /usr/bin
+            printf "\n[+]Viper Monkey succesfully installed!!\n"
 	
     
     theApts # Check if the new installed packages need upgrading
